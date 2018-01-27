@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameUnit : MonoBehaviour {
+    public string unitName;
 
 	// Use this for initialization
 	void Start () {

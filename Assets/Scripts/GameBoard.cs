@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class GameBoard : MonoBehaviour {
@@ -10,31 +11,15 @@ public class GameBoard : MonoBehaviour {
     public GameTile pentagonPrefab;
     public GameCamera gameCamera;
     public GameUnit produceUnit;
+    System.Random random = new System.Random();
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         GenerateSphere();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameTile tile = hit.collider.GetComponentInParent<GameTile>();
-                if (tile.currentUnit == null)
-                {
-                    GameUnit unit = GameObject.Instantiate<GameUnit>(produceUnit);
-                    tile.PlaceUnit(unit);
-                } else
-                {
-                    tile.RemoveUnit();
-                }
-            }
-        }
 	}
 
     void GenerateSphere()
@@ -87,7 +72,12 @@ public class GameBoard : MonoBehaviour {
         tile.transform.Rotate(Vector3.up, sideRot, Space.World);
         tile.transform.position += tile.transform.up * (isHexagon ? hexRadius : pentRadius);
         tile.position = position;
-        tile.text.text = "" + position;
         tile.transform.Rotate(0f, ownRot, 0f, Space.Self);
+
+        // Randomize terrain type
+        Array values = Enum.GetValues(typeof(TerrainType));
+        tile.terrainType = (TerrainType)values.GetValue(random.Next(values.Length));
+
+        tile.InitializeVisuals();
     }
 }
