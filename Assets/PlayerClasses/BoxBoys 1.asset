@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208f4b9feba3d534cb017072436b79ec, type: 3}
+  m_Name: BoxBoys 1
+  m_EditorClassIdentifier: 
+  buildableUnits:
+  - {fileID: 114727773399917442, guid: 27fae9583c57cb643becb621c8cb1c1b, type: 2}

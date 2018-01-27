@@ -8,11 +8,14 @@ public class Interface : MonoBehaviour
     public GameUnit produceUnit;
     public TileInfoDisplay tileInfoDisplay;
     public UnitInfoDisplay unitInfoDisplay;
-    public GameBoard board;
+    public GameWorld world;
+    public PlayerStateDisplay playerStateDisplay;
+    public GameCamera gameCamera;
+    public ConstructUnitPanel constructUnitPanel;
+    private float zoomSpeed = 10f;
 
     void Update()
     {
-
         UpdateHoveredTile();
 
         if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
@@ -20,28 +23,41 @@ public class Interface : MonoBehaviour
             if (currentHoveredTile.currentUnit == null)
             {
                 GameUnit unit = GameObject.Instantiate<GameUnit>(produceUnit);
-                currentHoveredTile.PlaceUnit(unit);
-                unitInfoDisplay.DisplayInfo(unit);
+                world.ConstructUnit(unit, currentHoveredTile);
             }
             else
             {
                 if (currentHoveredTile.currentUnit.selected)
                 {
                     currentHoveredTile.currentUnit.selected = false;
-                    foreach (int neighbor in board.neighboures[currentHoveredTile.position])
+                    foreach (GameTile neighbor in world.GetNeighbors(currentHoveredTile))
                     {
-                        board.tiles[neighbor].OnStopHover();
+                        neighbor.OnStopHover();
                     }
                 } else
                 {
                     currentHoveredTile.currentUnit.selected = true;
-                    foreach (int neighbor in board.neighboures[currentHoveredTile.position])
+                    foreach (GameTile neighbor in world.GetNeighbors(currentHoveredTile))
                     {
-                        board.tiles[neighbor].OnHover();
+                        neighbor.OnHover();
                     }
                 }
             }
         }
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f)
+        {
+            gameCamera.Zoom(Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomSpeed);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            world.SwitchPerspective();
+        }
+    }
+
+    public void UpdatePlayer(Player player)
+    {
+        constructUnitPanel.SetUnitButtons(player.playerClass.buildableUnits);
+        playerStateDisplay.DisplayPlayerState(player);
     }
 
     private void UpdateHoveredTile()

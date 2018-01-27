@@ -13,6 +13,7 @@ public class GameTile : MonoBehaviour {
     public Text text;
     public int position;
     public TerrainType terrainType = TerrainType.PLAINS;
+    public bool isOuter;
 
     private Dictionary<TerrainType, string> terrainNames = new Dictionary<TerrainType, string> {
         { TerrainType.PLAINS, "Plains" },
@@ -46,6 +47,7 @@ public class GameTile : MonoBehaviour {
     {
         unit.transform.position = transform.position;
         unit.transform.rotation = transform.rotation;
+        unit.transform.SetParent(transform);
         currentUnit = unit;
     }
 
