@@ -549,6 +549,7 @@ MonoBehaviour:
     type: 2}
   tileInfoDisplay: {fileID: 1148847383}
   unitInfoDisplay: {fileID: 1005322308}
+  board: {fileID: 1923802334}
 --- !u!4 &1001742457
 Transform:
   m_ObjectHideFlags: 0
@@ -828,6 +829,7 @@ MonoBehaviour:
   gameCamera: {fileID: 848445840}
   produceUnit: {fileID: 114588589009195654, guid: 3fb3b67fd8b08284998506f197f532b7,
     type: 2}
+  tiles: []
 --- !u!4 &1923802335
 Transform:
   m_ObjectHideFlags: 0

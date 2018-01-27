@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameUnit : MonoBehaviour {
     public string unitName;
+    public bool selected = false;
 
 	// Use this for initialization
 	void Start () {

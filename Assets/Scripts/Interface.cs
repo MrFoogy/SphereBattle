@@ -8,8 +8,43 @@ public class Interface : MonoBehaviour
     public GameUnit produceUnit;
     public TileInfoDisplay tileInfoDisplay;
     public UnitInfoDisplay unitInfoDisplay;
+    public GameBoard board;
 
     void Update()
+    {
+
+        UpdateHoveredTile();
+
+        if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
+        {
+            if (currentHoveredTile.currentUnit == null)
+            {
+                GameUnit unit = GameObject.Instantiate<GameUnit>(produceUnit);
+                currentHoveredTile.PlaceUnit(unit);
+                unitInfoDisplay.DisplayInfo(unit);
+            }
+            else
+            {
+                if (currentHoveredTile.currentUnit.selected)
+                {
+                    currentHoveredTile.currentUnit.selected = false;
+                    foreach (int neighbor in board.neighboures[currentHoveredTile.position])
+                    {
+                        board.tiles[neighbor].OnStopHover();
+                    }
+                } else
+                {
+                    currentHoveredTile.currentUnit.selected = true;
+                    foreach (int neighbor in board.neighboures[currentHoveredTile.position])
+                    {
+                        board.tiles[neighbor].OnHover();
+                    }
+                }
+            }
+        }
+    }
+
+    private void UpdateHoveredTile()
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -39,21 +74,5 @@ public class Interface : MonoBehaviour
             unitInfoDisplay.DisplayInfo(nextHoveredTile == null ? null : nextHoveredTile.currentUnit);
         }
         currentHoveredTile = nextHoveredTile;
-
-        if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
-        {
-            if (currentHoveredTile.currentUnit == null)
-            {
-                GameUnit unit = GameObject.Instantiate<GameUnit>(produceUnit);
-                currentHoveredTile.PlaceUnit(unit);
-                unitInfoDisplay.DisplayInfo(unit);
-            }
-            else
-            {
-                currentHoveredTile.RemoveUnit();
-                unitInfoDisplay.DisplayInfo(null);
-            }
-        }
     }
-
 }
