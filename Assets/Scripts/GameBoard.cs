@@ -116,7 +116,7 @@ public class GameBoard : MonoBehaviour {
         neighboures[32] = new List<int> {18, 19, 27, 28, 37, 38}; 
         neighboures[33] = new List<int> {20, 21, 28, 29, 38, 39}; 
         neighboures[34] = new List<int> {22, 23, 29, 30, 39, 40}; 
-        neighboures[35] = new List<int> {24, 25, 26, 30, 36, 40}; 
+        neighboures[35] = new List<int> {24, 25, 26, 31, 36, 40}; 
 
         for (int i = 0; i < 5; i++)
         {
@@ -129,7 +129,7 @@ public class GameBoard : MonoBehaviour {
         neighboures[39] = new List<int> {29, 33, 34, 38, 40, 41}; 
         neighboures[40] = new List<int> {30, 34, 35, 36, 39, 41}; 
 
-        CreateTile(false, 180f + 36f, 0f, -90f, ++index);
+        tiles.Add(CreateTile(false, 180f + 36f, 0f, -90f, ++index));
         neighboures[41] = new List<int> {36, 37, 38, 39, 40}; 
 
     }
