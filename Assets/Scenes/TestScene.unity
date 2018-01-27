@@ -113,6 +113,68 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &441358968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 441358971}
+  - component: {fileID: 441358970}
+  - component: {fileID: 441358969}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &441358969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441358968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &441358970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441358968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
+--- !u!4 &441358971
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441358968}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &848445835
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,13 +363,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b59f2bbc22bfe42ba575fa107b0f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2.665
+  hexRadius: 2.665
+  pentRadius: 2.72
   angle: 30
-  hexagonPrefab: {fileID: 1098159508188476, guid: 7be728575a2792d4ead8a1ab1551a28b,
+  hexagonPrefab: {fileID: 114483569133461202, guid: 7be728575a2792d4ead8a1ab1551a28b,
     type: 2}
-  pentagonPrefab: {fileID: 1827391388189730, guid: 2f2b39b80e5cdbe4a8cdab5e6a685026,
+  pentagonPrefab: {fileID: 114712587419880308, guid: 2f2b39b80e5cdbe4a8cdab5e6a685026,
     type: 2}
-  gameCamera: {fileID: 0}
+  gameCamera: {fileID: 848445840}
+  produceUnit: {fileID: 114588589009195654, guid: 3fb3b67fd8b08284998506f197f532b7,
+    type: 2}
 --- !u!4 &1923802335
 Transform:
   m_ObjectHideFlags: 0
