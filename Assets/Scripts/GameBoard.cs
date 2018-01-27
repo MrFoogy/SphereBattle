@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+public class Pair<T, U>
+{
+    public Pair() {
+
+    }
+
+    public Pair(T first, U second) {
+        this.first = first;
+        this.second = second;
+    }
+    public T first;
+    public U second;
+}
+
+
 public class GameBoard : MonoBehaviour {
     public float hexRadius;
     public float pentRadius;
@@ -26,7 +41,70 @@ public class GameBoard : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	}
-    
+
+    public List<GameTile> moveLocations(GameTile from, GameUnit unit) {
+        List<GameTile> res = new List<GameTile>();
+
+
+        return res;
+    }
+
+    public void Move(GameTile from, GameTile to, GameUnit unit) {
+        if (CanReachTo(from, to, unit)) {
+            from.currentUnit = null;
+            to.currentUnit = unit;
+        }
+    }
+
+    public bool CanReachTo(GameTile from, GameTile to, GameUnit unit) {
+        List<int> path = Path(from, to);
+        int movement = unit.movement;
+        for (int i = 0; i < path.Count; i++) {
+            movement -= tiles[i].terrainType == TerrainType.MOUNTAIN && unit.movementType != MovementType.FLYING ? 2 : 1;
+        }
+        return movement >= 0;
+    }
+
+    public bool CanReachTo(GameTile from, GameTile to, int movement) {
+        List<int> path = Path(from, to);
+        return movement-path.Count >= 0;
+    }
+
+    public List<int> Path(GameTile from, GameTile to) {
+        Dictionary<int, bool> visited = new Dictionary<int, bool> { { from.position, true } };
+        // do other stuff
+        List<int> l = new List<int> { from.position };
+        Pair<List<int>, int> p = new Pair<List<int>, int>(l, 0);
+        List<Pair< List<int>, int> > paths = new List<Pair< List<int>, int >> {p};
+
+        Pair<List<int>, int> best = new Pair<List<int>, int>();
+
+        while(paths.Count > 0) {
+            Pair<List<int>, int> path = paths[0];
+            paths.RemoveAt(0);
+            int current = path.first[path.first.Count - 1];
+            visited.Add(current, true);
+            if (current == to.position) {
+                if (best != null && path.second < best.second) {
+                    best = path;
+                }
+            } else {
+                List<int> neighs = neighboures[current];
+                for (int i = 0; i < neighs.Count; i++) {
+                    if (!visited.ContainsKey(neighs[i])) {
+                        Pair<List<int>, int> newPath = new Pair<List<int>, int>(new List<int>(path.first), path.second++);
+                        paths.Add(newPath);
+                    }
+                }
+
+            }
+        }
+        return best.first;
+    }
+
+
+
+
     void GenerateSphere()
     {
         int index = 0;
@@ -86,7 +164,7 @@ public class GameBoard : MonoBehaviour {
             index++;
             tiles.Add(CreateTile(false, 180f, 72f * i, -27f, index));
         }
-        neighboures[26] = new List<int> {16, 25, 31, 25, 36}; 
+        neighboures[26] = new List<int> {16, 25, 31, 35, 36}; 
         neighboures[27] = new List<int> {17, 18, 31, 32, 37}; 
         neighboures[28] = new List<int> {19, 20, 32, 33, 38}; 
         neighboures[29] = new List<int> {21, 22, 33, 34, 39}; 
