@@ -7,58 +7,28 @@ public class GameBoard : MonoBehaviour {
     public float angle = 30f;
     public GameObject hexagonPrefab;
     public GameObject pentagonPrefab;
+    public GameCamera gameCamera;
 
 	// Use this for initialization
 	void Start () {
-        GenSphere2();
+        GenerateSphere();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameTile tile = hit.collider.GetComponentInParent<GameTile>();
+                tile.OnClicked();
+            }
+        }
 	}
 
     void GenerateSphere()
-    {
-        // Top side pentagons
-        GameObject.Instantiate(pentagonPrefab, transform.position + Vector3.up * radius, transform.rotation * Quaternion.AngleAxis(36f, Vector3.up), transform);
-        for (int i = 0; i < 5; i++)
-        {
-            Quaternion rot = Quaternion.AngleAxis(36f + 72f * i, Vector3.up) * Quaternion.AngleAxis(60f, Vector3.right);
-            Quaternion ownRot = Quaternion.AngleAxis(216f + 72f * i, Vector3.up) * Quaternion.AngleAxis(-60f, Vector3.right);
-            Vector3 pos = rot * Vector3.up * radius;
-            GameObject.Instantiate(pentagonPrefab, transform.position + pos, transform.rotation * ownRot, transform);
-        }
-
-        // Middle layer hexagons
-        for (int i = 0; i < 10; i++)
-        {
-            Quaternion rot = Quaternion.AngleAxis(36f * i, Vector3.up) * Quaternion.AngleAxis(-90f, Vector3.right);
-            Quaternion ownRot = Quaternion.AngleAxis(90f + 36f * i, Vector3.up) * Quaternion.AngleAxis(-90f, Vector3.right);
-            Vector3 pos = rot * Vector3.right * radius;
-            GameObject.Instantiate(hexagonPrefab, transform.position + pos, transform.rotation * ownRot, transform);
-        }
-
-        // Bottom side hexagons
-        for (int i = 0; i < 5; i++)
-        {
-            Quaternion rot = Quaternion.AngleAxis(72f * i, Vector3.up) * Quaternion.AngleAxis(150f, Vector3.right);
-            Vector3 pos = rot * Vector3.up * radius;
-            GameObject.Instantiate(hexagonPrefab, transform.position + pos, rot, transform);
-        }
-
-        // Bottom side pentagons
-        for (int i = 0; i < 5; i++)
-        {
-            Quaternion rot = Quaternion.AngleAxis(72f * i, Vector3.up) * Quaternion.AngleAxis(120f, Vector3.right);
-            Vector3 pos = rot * Vector3.up * radius;
-            GameObject.Instantiate(pentagonPrefab, transform.position + pos, transform.rotation * rot, transform);
-        }
-
-        GameObject.Instantiate(pentagonPrefab, transform.position - Vector3.up * radius, transform.rotation * Quaternion.AngleAxis(216f, Vector3.up), transform);
-    }
-
-    void GenSphere2()
     {
         CreateTile(false, 36f, 0f, 90f);
         for (int i = 0; i < 5; i++)
