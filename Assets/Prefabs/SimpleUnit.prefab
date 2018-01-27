@@ -123,3 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4924cc223729dbc49b170ba9af5744f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: Box Boy
