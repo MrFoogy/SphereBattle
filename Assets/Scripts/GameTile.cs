@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum TerrainType
 {
-    NEUTRAL, BLUE, RED
+    NEUTRAL, BLUE, RED, POLE
 }
 
 public class GameTile : MonoBehaviour {
@@ -17,13 +17,15 @@ public class GameTile : MonoBehaviour {
     private Dictionary<TerrainType, string> terrainNames = new Dictionary<TerrainType, string> {
         { TerrainType.NEUTRAL, "Neutral" },
         { TerrainType.BLUE, "Blue" },
-        { TerrainType.RED, "Red" }
+        { TerrainType.RED, "Red" },
+        { TerrainType.POLE, "Pole" }
     };
 
     private Dictionary<TerrainType, Color> terrainColors = new Dictionary<TerrainType, Color> {
-        { TerrainType.NEUTRAL, Color.yellow },
+        { TerrainType.NEUTRAL, Color.gray },
         { TerrainType.BLUE, Color.blue },
-        { TerrainType.RED, Color.red }
+        { TerrainType.RED, Color.red },
+        { TerrainType.POLE, Color.white }
     };
 
     public void InitializeVisuals()

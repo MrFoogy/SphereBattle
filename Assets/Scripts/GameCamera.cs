@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GameCamera : MonoBehaviour {
     private Vector3 direction = Vector3.forward;
-    public float distance = 13f;
-    private float maxDistance = 23f;
-    private float minDistance = 1f;
+    public float distance = 15f;
+    private float maxDistance = 25f;
+    private float minDistance = 5f;
     public float rotSpeed = 100f;
     private float currentZoom = 0.5f;
     private static float MIN_VERTICAL_ANGLE = 70f;
@@ -58,7 +58,6 @@ public class GameCamera : MonoBehaviour {
             prog = 1f - (Mathf.Abs(Mathf.Max(0f, sGroundAngle)) / (MAX_VERTICAL_ANGLE * -1.2f));
         }
         yRotSpeedFactor = Mathf.SmoothStep(0f, 1f, prog);
-        Debug.Log("Prog: " + prog);
         direction = Quaternion.AngleAxis(xRot, Vector3.up) * direction;
         direction = Quaternion.AngleAxis(yRot * yRotSpeedFactor, transform.right) * direction;
 

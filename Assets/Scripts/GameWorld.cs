@@ -8,9 +8,11 @@ public class GameWorld : MonoBehaviour
     public Game game;
     public GameBoard outerBoard;
     public GameBoard innerBoard;
-    public GameUnit bigTowerPrefab;
     public GameUnit smallTowerPrefab;
+    public GameUnit penguinPrefab;
+    public GameUnit bearPrefab;
     public Interface ui;
+    public GameObject effectPrefab;
     private int resourceRate = 100;
     private bool isOuterPerspective = false;
 
@@ -26,6 +28,7 @@ public class GameWorld : MonoBehaviour
         outerBoard = GameObject.Instantiate<GameBoard>(boardPrefab);
         outerBoard.ui = ui;
         outerBoard.isOuter = true;
+        outerBoard.world = this;
         /*
         innerBoard = GameObject.Instantiate<GameBoard>(boardPrefab);
         innerBoard.isOuter = false;
@@ -47,11 +50,19 @@ public class GameWorld : MonoBehaviour
         return null;
     }
 
-    public void ConstructUnit(GameTile tile)
+    public void ConstructUnit(GameTile tile, GameUnit unitPrefab)
     {
-        GameUnit unit = GameObject.Instantiate<GameUnit>(smallTowerPrefab);
+        GameUnit unit = GameObject.Instantiate<GameUnit>(unitPrefab);
         tile.PlaceUnit(unit);
         unit.owner = game.currentPlayer;
+        List<GameTile> neighbors = GetNeighbors(tile);
+        foreach (GameTile ntile in neighbors)
+        {
+            if (ntile.terrainType == tile.terrainType)
+            {
+                //GameObject.Instantiate(effectPrefab, unit.GetComponent<Tower>().top.transform.position + ntile)
+            }
+        }
         //ui.unitInfoDisplay.DisplayInfo(unit);
         //game.currentPlayer.resources -= unit.cost;
         ui.playerStateDisplay.DisplayPlayerState(game.currentPlayer);
@@ -75,8 +86,8 @@ public class GameWorld : MonoBehaviour
     public void SwitchPerspective()
     {
         isOuterPerspective = !isOuterPerspective;
-        outerBoard.gameObject.SetActive(isOuterPerspective);
-        innerBoard.gameObject.SetActive(!isOuterPerspective);
+        //outerBoard.gameObject.SetActive(isOuterPerspective);
+        //innerBoard.gameObject.SetActive(!isOuterPerspective);
     }
 
     public List<GameTile> moveLocations(GameTile from, GameUnit unit) {
@@ -107,7 +118,7 @@ public class GameWorld : MonoBehaviour
         return movement-path.Count >= 0;
     }
 
-    bool HavePath(TerrainType team) {
+    public bool HavePath(TerrainType team) {
         GameTile top = GetTile(0, true);
         GameTile bot = GetTile(41, true);
 

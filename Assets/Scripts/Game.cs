@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour {
     public Interface ui;
@@ -20,13 +21,13 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            ChangeTurn();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 	}
 
-    private void ChangeTurn()
+    public void ChangeTurn()
     {
         activePlayerNum = (activePlayerNum + 1) % players.Length;
         currentPlayer = players[activePlayerNum];

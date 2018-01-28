@@ -9,7 +9,12 @@ public class PlayerStateDisplay : MonoBehaviour {
 
     public void DisplayPlayerState(Player player)
     {
-        playerText.text = (player.playerNum == 0 ? "Blue" : "Red") + " player's turn";
+        playerText.text = (player.playerNum == 0 ? "Red" : "Blue") + " player's turn";
         //resourceText.text = "Resources: " + player.resources;
+    }
+
+    public void Hide()
+    {
+        playerText.enabled = false;
     }
 }

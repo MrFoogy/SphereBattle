@@ -27,6 +27,7 @@ public class GameBoard : MonoBehaviour {
     public Interface ui;
     public Player owner;
     public bool isOuter;
+    public GameWorld world;
     System.Random random = new System.Random();
 
     public List<GameTile> tiles = new List<GameTile>();
@@ -88,6 +89,8 @@ public class GameBoard : MonoBehaviour {
 
         tiles.Add(CreateTile(false, 180f + 36f, 0f, -90f, ++index));
 
+        world.ConstructUnit(world.GetTile(0, true), world.bearPrefab);
+        world.ConstructUnit(world.GetTile(41, true), world.penguinPrefab);
     }
 
     private GameTile CreateTile(bool isHexagon, float ownRot, float sideRot, float upRot, int position = 0)
@@ -102,7 +105,7 @@ public class GameBoard : MonoBehaviour {
         // Randomize terrain type
         Array values = Enum.GetValues(typeof(TerrainType));
         //tile.terrainType = (TerrainType)values.GetValue(random.Next(values.Length));
-        tile.terrainType = TerrainType.MOUNTAIN; 
+        tile.terrainType = (position == 0 || position == 41) ? TerrainType.POLE : TerrainType.NEUTRAL; 
 
         tile.InitializeVisuals();
         return tile;

@@ -26,7 +26,6 @@ public class GameUnit : MonoBehaviour {
 
     // Use this for initialization
 	void Start () {
-        unitUI = GameObject.Instantiate<UnitUI>(unitUIPrefab, transform.position + transform.up, transform.rotation, transform);
     }
 
     // perhaps have armor on stuff?

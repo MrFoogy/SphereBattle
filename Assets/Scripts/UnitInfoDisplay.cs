@@ -21,4 +21,5 @@ public class UnitInfoDisplay : MonoBehaviour {
             infoText.text = gameUnit.unitName;
         }
     }
+
 }

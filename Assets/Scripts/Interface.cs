@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Interface : MonoBehaviour
 {
@@ -11,27 +12,29 @@ public class Interface : MonoBehaviour
     public PlayerStateDisplay playerStateDisplay;
     public GameCamera gameCamera;
     public ConstructUnitPanel constructUnitPanel;
+    public Game game;
+    public Text winText; 
     private float zoomSpeed = 10f;
 
     void Update()
     {
         UpdateHoveredTile();
 
-        GameTile top = world.GetTile(0, true);
-        if (currentHoveredTile != null && top != null) {
-            List<GameTile> path = world.Path(currentHoveredTile, top);
-
-            foreach (GameTile t in path) {
-                t.OnHover();
-            }
-        }
         if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
         {
-            currentHoveredTile.GetComponentInChildren<Renderer>().material.color = Color.red;
-        }
-        if (Input.GetMouseButtonDown(1) && currentHoveredTile != null)
-        {
-            currentHoveredTile.GetComponentInChildren<Renderer>().material.color = Color.red;
+            if (currentHoveredTile.terrainType == TerrainType.NEUTRAL && currentHoveredTile.position != 0 && currentHoveredTile.position != 41)
+            {
+                currentHoveredTile.terrainType = game.currentPlayer.playerNum == 0 ? TerrainType.RED : TerrainType.BLUE;
+                world.ConstructUnit(currentHoveredTile, world.smallTowerPrefab);
+                currentHoveredTile.InitializeVisuals();
+                if (world.HavePath(currentHoveredTile.terrainType))
+                {
+                    ShowWinText(game.currentPlayer);
+                    game.ui.playerStateDisplay.Hide();
+                game.ui.playerStateDisplay.Hide();
+                }
+                game.ChangeTurn();
+            }
         }
         if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
         {
@@ -75,6 +78,11 @@ public class Interface : MonoBehaviour
     {
         //constructUnitPanel.SetUnitButtons(player.playerClass.buildableUnits);
         playerStateDisplay.DisplayPlayerState(player);
+    }
+
+    public void ShowWinText(Player winner)
+    {
+        winText.text = (winner.playerNum == 0 ? "Red" : "Blue") + " player won! \n (Space to restart)";
     }
 
     private void UpdateHoveredTile()
