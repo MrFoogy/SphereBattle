@@ -7,10 +7,11 @@ public enum MovementType
     GROUND, FLYING
 }
 
-public abstract class GameUnit : MonoBehaviour {
+public class GameUnit : MonoBehaviour {
     public string unitName;
     public int cost;
     public bool selected = false;
+    public Player owner;
 
     public int health;
     public int maxHealth;
@@ -20,15 +21,19 @@ public abstract class GameUnit : MonoBehaviour {
     public int movement;
     public MovementType movementType;
 
+    public UnitUI unitUIPrefab;
+    private UnitUI unitUI;
+
     // Use this for initialization
 	void Start () {
-        
-	}
+        unitUI = GameObject.Instantiate<UnitUI>(unitUIPrefab, transform.position + transform.up, transform.rotation, transform);
+    }
 
     // perhaps have armor on stuff?
     public void TakeDamage(int damage) 
     {
         health -= damage > armor ? damage - armor : 0;
+        unitUI.SetContent(this);
         if (health <= 0)
             Destroy(this);
     }
@@ -38,12 +43,17 @@ public abstract class GameUnit : MonoBehaviour {
     {
         tile.currentUnit.TakeDamage(weapon.damage * (health / maxHealth));
     }
-
-
-
 	
     // Update is called once per frame
 	void Update () {
 		
 	}
+
+    void OnDestroy()
+    {
+        if (unitUI != null)
+        {
+            Destroy(unitUI.gameObject);
+        }    
+    }
 }

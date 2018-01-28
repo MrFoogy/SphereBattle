@@ -24,8 +24,9 @@ public class ConstructUnitPanel : MonoBehaviour {
 
     public void OnConstructUnitClick(GameUnit unit)
     {
-        ui.produceUnit = unit;
+        //ui.produceUnit = unit;
     }
+
 	// Use this for initialization
 	void Start () {
 		

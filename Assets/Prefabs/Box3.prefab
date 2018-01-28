@@ -126,3 +126,11 @@ MonoBehaviour:
   unitName: Box Hero
   cost: 500
   selected: 0
+  health: 0
+  maxHealth: 0
+  armor: 0
+  weapon: {fileID: 0}
+  movement: 0
+  movementType: 0
+  unitUIPrefab: {fileID: 114673976380942494, guid: 0b5673cb1cb784143a29ba1abafa1c9f,
+    type: 2}

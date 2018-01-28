@@ -5,7 +5,6 @@ using UnityEngine;
 public class Interface : MonoBehaviour
 {
     private GameTile currentHoveredTile;
-    public GameUnit produceUnit;
     public TileInfoDisplay tileInfoDisplay;
     public UnitInfoDisplay unitInfoDisplay;
     public GameWorld world;
@@ -20,10 +19,18 @@ public class Interface : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
         {
+            currentHoveredTile.GetComponentInChildren<Renderer>().material.color = Color.red;
+        }
+        if (Input.GetMouseButtonDown(1) && currentHoveredTile != null)
+        {
+            currentHoveredTile.GetComponentInChildren<Renderer>().material.color = Color.red;
+        }
+        if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
+        {
+            /*
             if (currentHoveredTile.currentUnit == null)
             {
-                GameUnit unit = GameObject.Instantiate<GameUnit>(produceUnit);
-                world.ConstructUnit(unit, currentHoveredTile);
+                world.ConstructUnit(currentHoveredTile);
             }
             else
             {
@@ -43,6 +50,7 @@ public class Interface : MonoBehaviour
                     }
                 }
             }
+            */
         }
         if (Input.GetAxis("Mouse ScrollWheel") != 0f)
         {
@@ -56,7 +64,7 @@ public class Interface : MonoBehaviour
 
     public void UpdatePlayer(Player player)
     {
-        constructUnitPanel.SetUnitButtons(player.playerClass.buildableUnits);
+        //constructUnitPanel.SetUnitButtons(player.playerClass.buildableUnits);
         playerStateDisplay.DisplayPlayerState(player);
     }
 
@@ -86,8 +94,8 @@ public class Interface : MonoBehaviour
 
         if (nextHoveredTile != currentHoveredTile)
         {
-            tileInfoDisplay.DisplayInfo(nextHoveredTile);
-            unitInfoDisplay.DisplayInfo(nextHoveredTile == null ? null : nextHoveredTile.currentUnit);
+            //tileInfoDisplay.DisplayInfo(nextHoveredTile);
+            //unitInfoDisplay.DisplayInfo(nextHoveredTile == null ? null : nextHoveredTile.currentUnit);
         }
         currentHoveredTile = nextHoveredTile;
     }

@@ -9,7 +9,7 @@ public class PlayerStateDisplay : MonoBehaviour {
 
     public void DisplayPlayerState(Player player)
     {
-        playerText.text = "Player " + (player.playerNum + 1) + ":s turn";
-        resourceText.text = "Resources: " + player.resources;
+        playerText.text = (player.playerNum == 0 ? "Blue" : "Red") + " player's turn";
+        //resourceText.text = "Resources: " + player.resources;
     }
 }
