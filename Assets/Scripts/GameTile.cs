@@ -10,7 +10,6 @@ public enum TerrainType
 
 public class GameTile : MonoBehaviour {
     public GameUnit currentUnit;
-    public Text text;
     public int position;
     public TerrainType terrainType = TerrainType.NEUTRAL;
     public bool isOuter;
@@ -30,17 +29,17 @@ public class GameTile : MonoBehaviour {
     public void InitializeVisuals()
     {
         GetComponentInChildren<Renderer>().material.color = terrainColors[terrainType];
-        text.text = "" + position;
+        //text.text = "" + position;
     }
 
     public void OnHover()
     {
-        GetComponentInChildren<Renderer>().material.color = Color.red;
+        //GetComponentInChildren<Renderer>().material.color = Color.red;
     }
 
     public void OnStopHover()
     {
-        GetComponentInChildren<Renderer>().material.color = terrainColors[terrainType]; 
+        //GetComponentInChildren<Renderer>().material.color = terrainColors[terrainType]; 
     }
 
     public void PlaceUnit(GameUnit unit)

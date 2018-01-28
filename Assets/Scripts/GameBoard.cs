@@ -101,7 +101,8 @@ public class GameBoard : MonoBehaviour {
         tile.isOuter = isOuter;
         // Randomize terrain type
         Array values = Enum.GetValues(typeof(TerrainType));
-        tile.terrainType = (TerrainType)values.GetValue(random.Next(values.Length));
+        //tile.terrainType = (TerrainType)values.GetValue(random.Next(values.Length));
+        tile.terrainType = TerrainType.MOUNTAIN; 
 
         tile.InitializeVisuals();
         return tile;

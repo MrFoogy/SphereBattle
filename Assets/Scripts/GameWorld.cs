@@ -8,6 +8,8 @@ public class GameWorld : MonoBehaviour
     public Game game;
     public GameBoard outerBoard;
     public GameBoard innerBoard;
+    public GameUnit bigTowerPrefab;
+    public GameUnit smallTowerPrefab;
     public Interface ui;
     private int resourceRate = 100;
     private bool isOuterPerspective = false;
@@ -22,14 +24,16 @@ public class GameWorld : MonoBehaviour
     public void CreateWorld()
     {
         outerBoard = GameObject.Instantiate<GameBoard>(boardPrefab);
-        innerBoard = GameObject.Instantiate<GameBoard>(boardPrefab);
         outerBoard.ui = ui;
-        innerBoard.ui = ui;
         outerBoard.isOuter = true;
+        /*
+        innerBoard = GameObject.Instantiate<GameBoard>(boardPrefab);
         innerBoard.isOuter = false;
+        innerBoard.ui = ui;
         innerBoard.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         innerBoard.hexRadius *= 0.9f;
         innerBoard.pentRadius *= 0.9f;
+        */
     }
 
     public void OnStartTurn()
@@ -38,11 +42,18 @@ public class GameWorld : MonoBehaviour
         ui.UpdatePlayer(game.currentPlayer);
     }
 
-    public void ConstructUnit(GameUnit unit, GameTile tile)
+    public GameTile GetOppositeTile(GameTile tile)
     {
+        return null;
+    }
+
+    public void ConstructUnit(GameTile tile)
+    {
+        GameUnit unit = GameObject.Instantiate<GameUnit>(smallTowerPrefab);
         tile.PlaceUnit(unit);
-        ui.unitInfoDisplay.DisplayInfo(unit);
-        game.currentPlayer.resources -= unit.cost;
+        unit.owner = game.currentPlayer;
+        //ui.unitInfoDisplay.DisplayInfo(unit);
+        //game.currentPlayer.resources -= unit.cost;
         ui.playerStateDisplay.DisplayPlayerState(game.currentPlayer);
     }
 
