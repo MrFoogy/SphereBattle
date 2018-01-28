@@ -9,6 +9,8 @@ public enum MovementType
 
 public abstract class GameUnit : MonoBehaviour {
     public string unitName;
+    public int cost;
+    public bool selected = false;
 
     public int health;
     public int maxHealth;

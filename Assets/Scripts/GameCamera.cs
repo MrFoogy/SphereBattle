@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class GameCamera : MonoBehaviour {
     private Vector3 direction = Vector3.forward;
-    public float distance = 10f;
+    public float distance = 13f;
+    private float maxDistance = 23f;
+    private float minDistance = 1f;
     public float rotSpeed = 100f;
-    private static float MIN_VERTICAL_ANGLE = 60f;
-    private static float MAX_VERTICAL_ANGLE = -60f;
+    private float currentZoom = 0.5f;
+    private static float MIN_VERTICAL_ANGLE = 70f;
+    private static float MAX_VERTICAL_ANGLE = -70f;
 
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
+    public void Zoom(float amount)
+    {
+        currentZoom = Mathf.Clamp(currentZoom + amount, 0f, 1f);
+        distance = Mathf.SmoothStep(minDistance, maxDistance, currentZoom);
+    }
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKey(KeyCode.A))
