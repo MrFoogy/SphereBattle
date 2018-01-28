@@ -18,6 +18,14 @@ public class Interface : MonoBehaviour
     {
         UpdateHoveredTile();
 
+        GameTile top = world.GetTile(0, true);
+        if (currentHoveredTile != null && top != null) {
+            List<GameTile> path = world.Path(currentHoveredTile, top);
+
+            foreach (GameTile t in path) {
+                t.OnHover();
+            }
+        }
         if (Input.GetMouseButtonDown(0) && currentHoveredTile != null)
         {
             if (currentHoveredTile.currentUnit == null)
@@ -34,12 +42,13 @@ public class Interface : MonoBehaviour
                     {
                         neighbor.OnStopHover();
                     }
-                } else
-                {
+                } else {
+                   
                     currentHoveredTile.currentUnit.selected = true;
                     foreach (GameTile neighbor in world.GetNeighbors(currentHoveredTile))
                     {
                         neighbor.OnHover();
+                        
                     }
                 }
             }

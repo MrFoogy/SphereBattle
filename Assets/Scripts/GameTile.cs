@@ -5,26 +5,26 @@ using UnityEngine.UI;
 
 public enum TerrainType
 {
-    PLAINS, FOREST, MOUNTAIN
+    NEUTRAL, BLUE, RED
 }
 
 public class GameTile : MonoBehaviour {
     public GameUnit currentUnit;
     public Text text;
     public int position;
-    public TerrainType terrainType = TerrainType.PLAINS;
+    public TerrainType terrainType = TerrainType.NEUTRAL;
     public bool isOuter;
 
     private Dictionary<TerrainType, string> terrainNames = new Dictionary<TerrainType, string> {
-        { TerrainType.PLAINS, "Plains" },
-        { TerrainType.FOREST, "Forest" },
-        { TerrainType.MOUNTAIN, "Mountain" }
+        { TerrainType.NEUTRAL, "Neutral" },
+        { TerrainType.BLUE, "Blue" },
+        { TerrainType.RED, "Red" }
     };
 
     private Dictionary<TerrainType, Color> terrainColors = new Dictionary<TerrainType, Color> {
-        { TerrainType.PLAINS, Color.yellow },
-        { TerrainType.FOREST, Color.green },
-        { TerrainType.MOUNTAIN, Color.gray }
+        { TerrainType.NEUTRAL, Color.yellow },
+        { TerrainType.BLUE, Color.blue },
+        { TerrainType.RED, Color.red }
     };
 
     public void InitializeVisuals()

@@ -7,7 +7,7 @@ public enum MovementType
     GROUND, FLYING
 }
 
-public abstract class GameUnit : MonoBehaviour {
+public class GameUnit : MonoBehaviour {
     public string unitName;
     public int cost;
     public bool selected = false;

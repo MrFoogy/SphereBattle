@@ -56,7 +56,7 @@ public class GameWorld : MonoBehaviour
         return res;
     }
 
-    private GameTile GetTile(int position, bool isOuter)
+    public GameTile GetTile(int position, bool isOuter)
     {
         return (isOuter ? outerBoard : innerBoard).tiles[position];
     }
@@ -83,42 +83,80 @@ public class GameWorld : MonoBehaviour
     }
 
     public bool CanReachTo(GameTile from, GameTile to, GameUnit unit) {
-        List<int> path = Path(from, to);
+        List<GameTile> path = Path(from, to);
         int movement = unit.movement;
         for (int i = 0; i < path.Count; i++) {
-            movement -= GetTile(path[i], true).terrainType == TerrainType.MOUNTAIN && unit.movementType != MovementType.FLYING ? 2 : 1;
+            movement -= path[i].terrainType == TerrainType.RED && unit.movementType != MovementType.FLYING ? 2 : 1;
         }
         return movement >= 0;
     }
 
     public bool CanReachTo(GameTile from, GameTile to, int movement) {
-        List<int> path = Path(from, to);
+        List<GameTile> path = Path(from, to);
         return movement-path.Count >= 0;
     }
 
-    public List<int> Path(GameTile from, GameTile to) {
-        Dictionary<int, bool> visited = new Dictionary<int, bool> { { from.position, true } };
-        // do other stuff
-        List<int> l = new List<int> { from.position };
-        Pair<List<int>, int> p = new Pair<List<int>, int>(l, 0);
-        List<Pair< List<int>, int> > paths = new List<Pair< List<int>, int >> {p};
+    bool HavePath(TerrainType team) {
+        GameTile top = GetTile(0, true);
+        GameTile bot = GetTile(41, true);
 
-        Pair<List<int>, int> best = new Pair<List<int>, int>();
+        List<List<GameTile>> paths = new List<List<GameTile>> { new List<GameTile> { top } };
+        HashSet<GameTile> visited = new HashSet<GameTile>();
 
-        while(paths.Count > 0) {
-            Pair<List<int>, int> path = paths[0];
+        while (paths.Count > 0) {
+            List<GameTile> path = paths[0];
             paths.RemoveAt(0);
-            int current = path.first[path.first.Count - 1];
+            GameTile current = path[path.Count - 1];
+
+            List<GameTile> neighs = GetNeighbors(current);
+            foreach (GameTile tile in neighs) {
+                if (tile == bot) {
+                    return true;
+                } else if (tile.terrainType == team && !visited.Contains(tile)) {
+                    List<GameTile> newPath = new List<GameTile>(path) { tile };
+                    paths.Add(newPath);
+                    visited.Add(tile);
+                }
+
+            }
+        }
+        return false;
+    }
+
+
+    public List<GameTile> Path(GameTile from, GameTile to) {
+        Dictionary<GameTile, bool> visited = new Dictionary<GameTile, bool>();// { { from, true } };
+        // do other stuff
+        List<GameTile> l = new List<GameTile> { from };
+        Pair<List<GameTile>, int> p = new Pair<List<GameTile>, int>(l, 0);
+        List<Pair< List<GameTile>, int> > paths = new List<Pair< List<GameTile>, int >> {p};
+
+        Pair<List<GameTile>, int> best = new Pair<List<GameTile>, int> {
+            first = new List<GameTile>()
+        };
+        best.second = 1000000000;
+
+        while (paths.Count > 0) {
+            //Debug.Log("inside pathfind loop with size of queue: "+ paths.Count);
+            Pair<List<GameTile>, int> path = paths[0];
+            paths.RemoveAt(0);
+            GameTile current = path.first[path.first.Count - 1];
+            if (visited.ContainsKey(current))
+                continue;
             visited.Add(current, true);
-            if (current == to.position) {
+            if (current.position == to.position) {
                 if (best != null && path.second < best.second) {
+                    best = path;
+                } else if (best == null) {
                     best = path;
                 }
             } else {
-                List<GameTile> neighs = GetNeighbors(GetTile(current, true));
+                List<GameTile> neighs = GetNeighbors(GetTile(current.position, true));
                 for (int i = 0; i < neighs.Count; i++) {
-                    if (!visited.ContainsKey(neighs[i].position)) {
-                        Pair<List<int>, int> newPath = new Pair<List<int>, int>(new List<int>(path.first) { neighs[i].position }, path.second++);
+                    if (!visited.ContainsKey(neighs[i])) {
+                        Pair<List<GameTile>, int> newPath = new Pair<List<GameTile>, int>(new List<GameTile>(path.first), 0);
+                        newPath.first.Add(neighs[i]);
+                        newPath.second = path.second++;
                         paths.Add(newPath);
                     }
                 }
